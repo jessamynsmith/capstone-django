@@ -179,8 +179,11 @@
   {% for waterBody in qs %}
 
     var gjson = { "type": "Feature",
-            "geometry": {{ waterBody.poly.geojson|safe }}
-            }
+      "properties": {
+        "waterbody_id": {{ waterBody.id }}
+      },
+      "geometry": {{ waterBody.poly.geojson|safe }}
+    }
     bound.extend( new google.maps.LatLng( {{ waterBody.centerLat }}, {{ waterBody.centerLon }}) );
     var features = map.data.addGeoJson(gjson);
     var style = getStyle({{waterBody.pValue}}, {{waterBody.slope}}, {{waterBody.id}}, '{{waterBody.lakeName}}');
@@ -188,14 +191,18 @@
          map.data.overrideStyle(features[i], style);
     }
 
-    // try to add event to click polygons to open object viewer - this opens up ALL polygons in new window. "window.location.href =" opens the last polygon no matter which you click
-    map.data.addListener('click', function() {
-     window.open("{% url 'objectViewer' waterBody.id %}");
-    });
-
 
     {% endfor %}
-    map.fitBounds(bound)
+    map.fitBounds(bound);
+ 
+ var objectViewerUrl = "{% url 'objectViewer' 0 %}";
+ 
+    // try to add event to click polygons to open object viewer - this opens up ALL polygons in new window. "window.location.href =" opens the last polygon no matter which you click
+    map.data.addListener('click', function(event) {
+      var waterBodyId = event.feature.getProperty('waterbody_id');
+      var url = objectViewerUrl.replace(0, waterBodyId);
+     window.open(url);
+    });
 
     // add legend
     var iconBase = "{% static "legend_icons/" %}";

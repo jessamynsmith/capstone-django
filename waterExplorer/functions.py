@@ -33,10 +33,10 @@ def chart_object_areas(X, Y, slope, intercept, objId):
 
     #plt.show()
 #    figPath = static('area_plot_new.png')#.format(objId))
-    figPath = '/att/gpfsfs/briskfs01/ppl/mwooten3/capstone/capstone-django/static/plot_new.png'
+#     figPath = '/att/gpfsfs/briskfs01/ppl/mwooten3/capstone/capstone-django/static/plot_new.png'
 #    print 'figPath:'
 #    print figPath
-    plt.savefig(figPath)
+#     plt.savefig(figPath)
 #    f = cStringIO.StringIO() # redirect
 #    plt.savefig(f, format="png", facecolor=(0.95,0.95,0.95))
     buf = io.BytesIO()

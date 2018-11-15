@@ -27,3 +27,6 @@ waterExplorer/migrations/*
 *.dbf
 *.cpg
 *.gdb
+
+static/*
+media/*
